@@ -1,26 +1,53 @@
 <script>
-import Modal from './Modal.vue'
+import TreeItem from './TreeItem.vue'
+
+const treeData = {
+  name: 'My Tree',
+  children: [
+    { name: 'hello' },
+    { name: 'wat' },
+    {
+      name: 'child folder',
+      children: [
+        {
+          name: 'child folder',
+          children: [{ name: 'hello' }, { name: 'wat' }]
+        },
+        { name: 'hello' },
+        { name: 'wat' },
+        {
+          name: 'child folder',
+          children: [{ name: 'hello' }, { name: 'wat' }]
+        }
+      ]
+    }
+  ]
+}
 
 export default {
   components: {
-    Modal
+    TreeItem
   },
   data() {
     return {
-      showModal: false
+      treeData
     }
   }
 }
 </script>
 
 <template>
-  <button id="show-modal" @click="showModal = true">Show Modal</button>
-
-  <Teleport to="body">
-    <modal :show="showModal" @close="showModal = false">
-      <template #header>
-        <h3>custom header</h3>
-      </template>
-    </modal>
-  </Teleport>
+  <ul>
+    <TreeItem class="item" :model="treeData"></TreeItem>
+  </ul>
 </template>
+
+<style>
+.item {
+  cursor: pointer;
+  line-height: 1.5;
+}
+.bold {
+  font-weight: bold;
+}
+</style>
