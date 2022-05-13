@@ -1,30 +1,26 @@
 <script>
-import DemoGrid from './Grid.vue'
+import Modal from './Modal.vue'
 
 export default {
   components: {
-    DemoGrid
+    Modal
   },
-  data: () => ({
-    searchQuery: '',
-    gridColumns: ['name', 'power'],
-    gridData: [
-      { name: 'Chuck Norris', power: Infinity },
-      { name: 'Bruce Lee', power: 9000 },
-      { name: 'Jackie Chan', power: 7000 },
-      { name: 'Jet Li', power: 8000 }
-    ]
-  })
+  data() {
+    return {
+      showModal: false
+    }
+  }
 }
 </script>
 
 <template>
-  <form id="search">
-    Search <input name="query" v-model="searchQuery">
-  </form>
-  <DemoGrid
-    :data="gridData"
-    :columns="gridColumns"
-    :filter-key="searchQuery">
-  </DemoGrid>
+  <button id="show-modal" @click="showModal = true">Show Modal</button>
+
+  <Teleport to="body">
+    <modal :show="showModal" @close="showModal = false">
+      <template #header>
+        <h3>custom header</h3>
+      </template>
+    </modal>
+  </Teleport>
 </template>
