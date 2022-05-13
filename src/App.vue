@@ -1,30 +1,45 @@
 <script>
-import DemoGrid from './Grid.vue'
+import { shuffle } from 'lodash-es'
+
+const getInitialItems = () => [1, 2, 3, 4, 5]
+let id = getInitialItems().length + 1
 
 export default {
-  components: {
-    DemoGrid
+  data() {
+    return {
+      items: getInitialItems()
+    }
   },
-  data: () => ({
-    searchQuery: '',
-    gridColumns: ['name', 'power'],
-    gridData: [
-      { name: 'Chuck Norris', power: Infinity },
-      { name: 'Bruce Lee', power: 9000 },
-      { name: 'Jackie Chan', power: 7000 },
-      { name: 'Jet Li', power: 8000 }
-    ]
-  })
+  methods: {
+    insert() {
+      const i = Math.round(Math.random() * this.items.length)
+      this.items.splice(i, 0, id++)
+    },
+    reset() {
+      this.items = getInitialItems()
+    },
+    shuffle() {
+      this.items = shuffle(this.items)
+    },
+    remove(item) {
+      const i = this.items.indexOf(item)
+      if (i > -1) {
+        this.items.splice(i, 1)
+      }
+    }
+  }
 }
 </script>
 
 <template>
-  <form id="search">
-    Search <input name="query" v-model="searchQuery">
-  </form>
-  <DemoGrid
-    :data="gridData"
-    :columns="gridColumns"
-    :filter-key="searchQuery">
-  </DemoGrid>
+  <button @click="insert">insert at random index</button>
+  <button @click="reset">reset</button>
+  <button @click="shuffle">shuffle</button>
+
+  <TransitionGroup tag="ul" name="fade" class="container">
+    <div v-for="item in items" class="item" :key="item">
+      {{ item }}
+      <button @click="remove(item)">x</button>
+    </div>
+  </TransitionGroup>
 </template>
