@@ -1,29 +1,23 @@
 <script>
-import TodoItem from './TodoItem.vue'
-
 export default {
-  components: {
-    TodoItem
-  },
   data() {
     return {
-      groceryList: [
-        { id: 0, text: 'Vegetables' },
-        { id: 1, text: 'Cheese' },
-        { id: 2, text: 'Whatever else humans are supposed to eat' }
-      ]
+      show: true,
+      list: [1, 2, 3]
     }
   }
 }
 </script>
 
 <template>
-  <ol>
-   
-    <TodoItem
-      v-for="item in groceryList"
-      :todo="item"
-      :key="item.id"
-    ></TodoItem>
-  </ol>
+  <button @click="show = !show">Toggle List</button>
+  <button @click="list.push(list.length + 1)">Push Number</button>
+  <button @click="list.pop()">Pop Number</button>
+  <button @click="list.reverse()">Reverse List</button>
+
+  <ul v-if="show && list.length">
+    <li v-for="item of list">{{ item }}</li>
+  </ul>
+  <p v-else-if="list.length">List is not empty, but hidden.</p>
+  <p v-else>List is empty.</p>
 </template>
