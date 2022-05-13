@@ -1,29 +1,27 @@
 <script>
-import TodoItem from './TodoItem.vue'
-
 export default {
-  components: {
-    TodoItem
-  },
   data() {
     return {
-      groceryList: [
-        { id: 0, text: 'Vegetables' },
-        { id: 1, text: 'Cheese' },
-        { id: 2, text: 'Whatever else humans are supposed to eat' }
-      ]
+      message: 'Hello World!'
+    }
+  },
+  methods: {
+    reverseMessage() {
+      this.message = this.message.split('').reverse().join('')
+    },
+    notify() {
+      alert('navigation was prevented.')
     }
   }
 }
 </script>
 
 <template>
-  <ol>
-   
-    <TodoItem
-      v-for="item in groceryList"
-      :todo="item"
-      :key="item.id"
-    ></TodoItem>
-  </ol>
+  <h1>{{ message }}</h1>
+  <button @click="reverseMessage">Reverse Message</button>
+ 
+  <button @click="message += '!'">Append "!"</button>
+  <a href="https://vuejs.org" @click.prevent="notify">
+    A link with e.preventDefault()
+  </a>
 </template>
